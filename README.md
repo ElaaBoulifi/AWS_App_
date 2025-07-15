@@ -87,15 +87,19 @@ json
     "createdAt": "2025-07-15T13:15:07.630Z"
   }
 }
+📦 .gitignore Notes
+node_modules/ are excluded from version control.
 
-🚧 Frontend Setup (Coming Soon)
-The frontend is a React app under the frontend/ directory. It is currently in the setup phase and will include:
+To avoid pushing unnecessary dependencies to GitHub.
 
-User registration and login
+📌 Future Improvements
+🔐 Add JWT authentication
 
-Skill search and matchmaking
+☁️ Add DynamoDB for user storage
 
-Profiles, messaging, and dashboard
+🎨 Design user profile & match view in frontend
+
+🧠 Smart matching based on skills
 
 🌍 Deployment
 The backend is designed to run as AWS Lambda functions using the Serverless Framework.
