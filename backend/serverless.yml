@@ -1,0 +1,25 @@
+service: skillhub-backend
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: eu-north-1
+  environment:
+    JWT_SECRET: your-secret-key
+    AWS_REGION: eu-north-1
+
+functions:
+  app:
+    handler: handler.handler
+    events:
+      - http:
+          path: /
+          method: ANY
+          payload: '2.0'  
+      - http:
+          path: /{proxy+}
+          method: ANY
+          payload: '2.0'  
+
+plugins:
+  - serverless-offline
