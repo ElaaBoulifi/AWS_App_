@@ -1,28 +1,29 @@
-// handler.js
 const serverless = require('serverless-http');
 const express = require('express');
-const helmet = require('helmet');
-const cors = require('cors');
-const userRoutes = require('./routes/userRoutes');
-
 const app = express();
-app.use(helmet());
-app.use(cors());
-app.use(express.json());
+const bodyParser = require('body-parser');
 
-app.get('/health', (req, res) => {
-  res.json({
-    success: true,
-    message: 'SkillHub API is running',
-    environment: 'local',
-    services: {
-      database: 'none',
-      storage: 'none',
-      auth: 'none'
-    }
-  });
+// Middleware
+app.use(bodyParser.json());
+
+// Route
+app.post('/users', (req, res) => {
+  const { name, email, skillsOffered = [], skillsWanted = [] } = req.body;
+
+  if (!name || !email) {
+    return res.status(400).json({ success: false, message: "Name and email are required" });
+  }
+
+  const newUser = {
+    id: Date.now().toString(),
+    name,
+    email,
+    skillsOffered,
+    skillsWanted,
+    createdAt: new Date().toISOString(),
+  };
+
+  return res.status(201).json({ success: true, user: newUser });
 });
-
-app.use('/users', userRoutes);
 
 module.exports.handler = serverless(app);
