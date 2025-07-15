@@ -1,30 +1,33 @@
-module.exports.createUser = (req, res) => {
-  let body = req.body;
+const { v4: uuidv4 } = require('uuid');
+const Joi = require('joi');
 
-  if (Buffer.isBuffer(body)) {
-    try {
-      body = JSON.parse(body.toString());
-    } catch (err) {
-      return res.status(400).json({ success: false, message: 'Invalid JSON body' });
-    }
+const createUser = (req, res) => {
+  const userSchema = Joi.object({
+    name: Joi.string().min(2).required(),
+    email: Joi.string().email().required(),
+    skillsOffered: Joi.array().items(Joi.string()).default([]),
+    skillsWanted: Joi.array().items(Joi.string()).default([])
+  });
+
+  const { error, value } = userSchema.validate(req.body);
+
+  if (error) {
+    return res.status(400).json({
+      success: false,
+      message: error.details[0].message
+    });
   }
 
-  const { name, email, skillsOffered, skillsWanted } = body;
-
-  if (!name || !email) {
-    return res.status(400).json({ success: false, message: 'Name and email are required' });
-  }
-
-  const newUser = {
+  const user = {
     id: Date.now().toString(),
-    name,
-    email,
-    skillsOffered,
-    skillsWanted,
+    ...value,
     createdAt: new Date().toISOString()
   };
 
-  console.log(' DEBUG NEW USER:', newUser);
-
-  res.status(201).json({ success: true, user: newUser });
+  return res.status(201).json({
+    success: true,
+    user
+  });
 };
+
+module.exports = { createUser };
