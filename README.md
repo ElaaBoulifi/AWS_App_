@@ -1,8 +1,10 @@
-# SkillHub App 💡
+# SkillHub App
 
-**SkillHub** is a fullstack web application that helps users exchange skills by offering and requesting them. This monorepo includes both the frontend and backend components.
+SkillHub is a full-stack serverless web application that connects users based on the skills they offer and the skills they want to learn.  
+It is designed to be lightweight, scalable, and deployable on AWS using the Serverless Framework.
 
 ---
+
 
 ## 📁 Project Structure
 
